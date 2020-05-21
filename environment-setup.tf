@@ -1,17 +1,32 @@
+variable "demoname" {
+    description = "The name of the demo for resource creation, etc."
+    default = "pluralsightdemo"  
+}
+
 provider "azurerm" {
   version = "=2.0.0"
   features {} # This is required to prevent some issues around nullability
 }
 
+resource "random_id" "demoid" {
+  keepers = {
+    # Generate a new id each time we switch to a new demo id
+    # This is so resource groups, etc. will be unique
+    demoID = "${var.demoname}"
+  }
+  byte_length = 1
+}
+
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_resource_group" "example" {
-  name     = "pluralsight-demo"
+  name     = "pluralsightdemo-${random_id.demoid.b64_url}"
   location = "eastus2"
 }
 
+
 resource "azurerm_storage_account" "example" {
-  name                     = "pluralsightdemo"
+  name                     = "pluralsightdemo${random_id.demoid.b64_url}"
   resource_group_name      = azurerm_resource_group.example.name
   location                 = azurerm_resource_group.example.location
   account_tier             = "Standard"
