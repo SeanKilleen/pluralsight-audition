@@ -79,13 +79,3 @@ resource "azurerm_key_vault" "example" {
   }
 
 }
-
-
-data "azurerm_key_vault" "example" {
-  name                = azurerm_key_vault.example.name
-  resource_group_name = azurerm_resource_group.example.name
-}
-
-output "vault_uri" {
-  value = data.azurerm_key_vault.example.vault_uri
-}
