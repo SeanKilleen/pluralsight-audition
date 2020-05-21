@@ -14,7 +14,7 @@ resource "random_id" "demoid" {
     # This is so resource groups, etc. will be unique
     demoID = "${var.demoname}"
   }
-  byte_length = 1
+  byte_length = 4
 }
 
 data "azurerm_client_config" "current" {}
