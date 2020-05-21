@@ -68,32 +68,13 @@ resource "azurerm_key_vault" "example" {
 
   sku_name = "standard"
 
-  access_policy {
-    tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = data.azurerm_client_config.current.object_id
-
-    key_permissions = [
-      "get",
-    ]
-
-    secret_permissions = [
-      "get",
-    ]
-
-    storage_permissions = [
-      "get",
-    ]
-  }
-
   network_acls {
     default_action = "Deny"
     bypass         = "AzureServices"
   }
 
-#   tags = {
-#     environment = "Testing"
-#   }
 }
+
 
 data "azurerm_key_vault" "example" {
   name                = azurerm_key_vault.example.name
@@ -110,12 +91,3 @@ resource "azurerm_key_vault_secret" "example" {
   key_vault_id = azurerm_key_vault.example.id
 
 }
-
-# data "azurerm_key_vault_secret" "example" {
-#   name         = "secret-sauce"
-#   key_vault_id = data.azurerm_key_vault.existing.id
-# }
-
-# output "secret_value" {
-#   value = data.azurerm_key_vault_secret.example.value
-# }
