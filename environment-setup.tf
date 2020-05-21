@@ -3,6 +3,11 @@ variable "demoname" {
     default = "pluralsightdemo"  
 }
 
+variable "region" {
+  description = "The region to create the sample apps in"
+  default = "eastus2"
+}
+
 provider "azurerm" {
   version = "=2.0.0"
   features {} # This is required to prevent some issues around nullability
@@ -12,7 +17,7 @@ resource "random_string" "demoid" {
   keepers = {
     # Generate a new lowercase string value each time we switch to a new demo id
     # This is so resource groups, etc. will be unique
-    demoID = "${var.demoname}"
+    demoID = var.demoname
   }
   length=8
   lower = true
@@ -25,7 +30,7 @@ data "azurerm_client_config" "current" {}
 
 resource "azurerm_resource_group" "example" {
   name     = "pluralsightdemo-${random_string.demoid.result}"
-  location = "eastus2"
+  location = var.region
 }
 
 
