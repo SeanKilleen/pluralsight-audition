@@ -8,25 +8,29 @@ provider "azurerm" {
   features {} # This is required to prevent some issues around nullability
 }
 
-resource "random_id" "demoid" {
+resource "random_string" "demoid" {
   keepers = {
-    # Generate a new id each time we switch to a new demo id
+    # Generate a new lowercase string value each time we switch to a new demo id
     # This is so resource groups, etc. will be unique
     demoID = "${var.demoname}"
   }
-  byte_length = 4
+  length=8
+  lower = true
+  upper = false
+  number = false
+  special = false
 }
 
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_resource_group" "example" {
-  name     = "pluralsightdemo-${random_id.demoid.b64_url}"
+  name     = "pluralsightdemo-${random_string.demoid.b64_url}"
   location = "eastus2"
 }
 
 
 resource "azurerm_storage_account" "example" {
-  name                     = "pluralsightdemo${random_id.demoid.b64_url}"
+  name                     = "pluralsightdemo${random_string.demoid.b64_url}"
   resource_group_name      = azurerm_resource_group.example.name
   location                 = azurerm_resource_group.example.location
   account_tier             = "Standard"
@@ -46,7 +50,7 @@ resource "azurerm_app_service_plan" "example" {
 }
 
 resource "azurerm_function_app" "example" {
-  name                       = "my-function-app-${random_id.demoid.b64_url}"
+  name                       = "my-function-app-${random_string.demoid.b64_url}"
   location                   = azurerm_resource_group.example.location
   resource_group_name        = azurerm_resource_group.example.name
   app_service_plan_id        = azurerm_app_service_plan.example.id
@@ -54,7 +58,7 @@ resource "azurerm_function_app" "example" {
 }
 
 resource "azurerm_key_vault" "example" {
-  name                        = "my-key-vault-${random_id.demoid.b64_url}"
+  name                        = "my-key-vault-${random_string.demoid.b64_url}"
   location                    = azurerm_resource_group.example.location
   resource_group_name         = azurerm_resource_group.example.name
   enabled_for_disk_encryption = true
