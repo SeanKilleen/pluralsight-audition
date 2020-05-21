@@ -24,13 +24,13 @@ resource "random_string" "demoid" {
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_resource_group" "example" {
-  name     = "pluralsightdemo-${random_string.demoid..result}"
+  name     = "pluralsightdemo-${random_string.demoid.result}"
   location = "eastus2"
 }
 
 
 resource "azurerm_storage_account" "example" {
-  name                     = "pluralsightdemo${random_string.demoid..result}"
+  name                     = "pluralsightdemo${random_string.demoid.result}"
   resource_group_name      = azurerm_resource_group.example.name
   location                 = azurerm_resource_group.example.location
   account_tier             = "Standard"
@@ -50,7 +50,7 @@ resource "azurerm_app_service_plan" "example" {
 }
 
 resource "azurerm_function_app" "example" {
-  name                       = "my-function-app-${random_string.demoid..result}"
+  name                       = "my-function-app-${random_string.demoid.result}"
   location                   = azurerm_resource_group.example.location
   resource_group_name        = azurerm_resource_group.example.name
   app_service_plan_id        = azurerm_app_service_plan.example.id
@@ -58,7 +58,7 @@ resource "azurerm_function_app" "example" {
 }
 
 resource "azurerm_key_vault" "example" {
-  name                        = "my-key-vault-${random_string.demoid..result}"
+  name                        = "my-key-vault-${random_string.demoid.result}"
   location                    = azurerm_resource_group.example.location
   resource_group_name         = azurerm_resource_group.example.name
   enabled_for_disk_encryption = true
