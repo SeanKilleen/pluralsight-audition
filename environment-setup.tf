@@ -46,7 +46,7 @@ resource "azurerm_app_service_plan" "example" {
 }
 
 resource "azurerm_function_app" "example" {
-  name                       = "my-function-app"
+  name                       = "my-function-app-${random_id.demoid.b64_url}"
   location                   = azurerm_resource_group.example.location
   resource_group_name        = azurerm_resource_group.example.name
   app_service_plan_id        = azurerm_app_service_plan.example.id
@@ -54,7 +54,7 @@ resource "azurerm_function_app" "example" {
 }
 
 resource "azurerm_key_vault" "example" {
-  name                        = "my-key-vault"
+  name                        = "my-key-vault-${random_id.demoid.b64_url}"
   location                    = azurerm_resource_group.example.location
   resource_group_name         = azurerm_resource_group.example.name
   enabled_for_disk_encryption = true
