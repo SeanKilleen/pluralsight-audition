@@ -96,7 +96,7 @@ resource "azurerm_key_vault" "example" {
 }
 
 data "azurerm_key_vault" "example" {
-  name                = "my-key-vault"
+  name                = azurerm_key_vault.example.name
   resource_group_name = azurerm_resource_group.example.name
 }
 
