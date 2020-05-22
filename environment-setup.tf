@@ -33,13 +33,13 @@ resource "random_string" "demoid" {
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_resource_group" "example" {
-  name     = "pluralsightdemo-${random_string.demoid.result}"
+  name     = "${var.demoname}-${random_string.demoid.result}"
   location = var.region
 }
 
 
 resource "azurerm_storage_account" "example" {
-  name                     = "pluralsightdemo${random_string.demoid.result}"
+  name                     = "${var.demoname}${random_string.demoid.result}"
   resource_group_name      = azurerm_resource_group.example.name
   location                 = azurerm_resource_group.example.location
   account_tier             = "Standard"
