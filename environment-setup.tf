@@ -9,8 +9,12 @@ variable "region" {
 }
 
 provider "azurerm" {
-  version = "=2.0.0"
+  version = "~> 2.11"
   features {} # This is required to prevent some issues around nullability
+}
+
+provider "random" {
+  version = "~> 2.2"
 }
 
 resource "random_string" "demoid" {
