@@ -64,12 +64,7 @@ resource "azurerm_function_app" "example" {
   resource_group_name        = azurerm_resource_group.example.name
   app_service_plan_id        = azurerm_app_service_plan.example.id
 
-  ## TODO: Do I need to get the output of the primary connection string and capture that in data somewhere?
   storage_connection_string  = azurerm_storage_account.example.primary_connection_string
-  
-  identity {
-    type = "SystemAssigned"
-  }
 }
 
 
