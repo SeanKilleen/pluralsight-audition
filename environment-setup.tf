@@ -66,6 +66,10 @@ resource "azurerm_function_app" "example" {
 
   ## TODO: Do I need to get the output of the primary connection string and capture that in data somewhere?
   storage_connection_string  = azurerm_storage_account.example.primary_connection_string
+  
+  identity {
+    type = "SystemAssigned"
+  }
 }
 
 
