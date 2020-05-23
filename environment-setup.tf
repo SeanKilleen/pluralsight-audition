@@ -99,7 +99,7 @@ resource "azurerm_key_vault" "example" {
     ]
   }
   network_acls {
-    default_action = "Allow"
+    default_action = "Allow" # NOTE: This would not be suitable for production
     bypass         = "AzureServices"
   }
 
