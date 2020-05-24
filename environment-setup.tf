@@ -58,6 +58,13 @@ resource "azurerm_app_service_plan" "example" {
   }
 }
 
+resource "azurerm_application_insights" "example" {
+  name                = "appinsights-${random_string.demoid.result}"
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
+  application_type    = "web"
+}
+
 resource "azurerm_function_app" "example" {
   name                       = "my-function-app-${random_string.demoid.result}"
   location                   = azurerm_resource_group.example.location
@@ -65,6 +72,12 @@ resource "azurerm_function_app" "example" {
   app_service_plan_id        = azurerm_app_service_plan.example.id
 
   storage_connection_string  = azurerm_storage_account.example.primary_connection_string
+
+  app_settings = {
+    "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.example.instrumentation_key
+  }
+
+
 }
 
 
@@ -78,7 +91,7 @@ resource "azurerm_key_vault" "example" {
   purge_protection_enabled    = false
 
   sku_name = "standard"
-  
+
   access_policy {
     tenant_id = data.azurerm_client_config.current.tenant_id
     object_id = data.azurerm_client_config.current.object_id
